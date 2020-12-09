@@ -15,11 +15,13 @@
 
         <title>CORNUCOPIA</title>
 
-        <script src="/framework.js?hash=<?=rand()?>"></script>
-        <script src="/calculator.test.js?hash=<?=rand()?>"></script>
-        <script src="/calculator.js?hash=<?=rand()?>"></script>
-        <script src="/frontend.test.js?hash=<?=rand()?>"></script>
-        <script src="/frontend.js?hash=<?=rand()?>"></script>
+        <!--In future we can load these scripts with a script to make sure they 
+        don't get cached, for now it's fine to just manually update the hash -->
+        <script src="/framework.js?hash=X"></script>
+        <script src="/calculator.test.js?hash=X"></script>
+        <script src="/calculator.js?hash=X"></script>
+        <script src="/frontend.test.js?hash=X"></script>
+        <script src="/frontend.js?hash=X"></script>
         <script>
             gifs = ["https://giphy.com/embed/aQUGAeZ1fBWpy", "https://giphy.com/embed/bZBmitwUwKtDa", "https://giphy.com/embed/damb8okh8wt7dCKZ5Z"];
         </script>

@@ -2,6 +2,9 @@ var tests = {
     "Nothing to transport": function() {
         return expect(calculate(0, 0), "to eq", ["yourself"]);
     },
+    "Nothing to transport (string inputs)": function() {
+        return expect(calculate("0", "0"), "to eq", ["yourself"]);
+    },
     "1 bag of corn to transport": function() {
         return expect(calculate(1, 0), "to eq", ["corn"]);
     },

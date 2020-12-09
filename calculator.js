@@ -1,7 +1,7 @@
 var calculate = function(corn, geese) {
     let worker = [];
 
-    if(corn&&geese) {
+    if((corn != 0) && (geese != 0)) {
         if(corn==1&&geese==1) {
             return ["corn", "", "goose"];
         }
@@ -15,9 +15,7 @@ var calculate = function(corn, geese) {
         }
 
         else return "ERROR";
-    }
-
-    else {
+    } else {
         while (corn--) {
             worker.push("corn");
             if (corn) {

@@ -1,34 +1,38 @@
 var calculate = function(corn, geese, foxes) {
     let worker = [];
 
-    if ((corn != 0) && (geese != 0)) {
-        if ((corn==1) && (geese==1)) {
-            return ["corn", "", "goose"];
-        } else if ((corn==1) && (geese==2)) {
-            return ["corn", "", "goose", "corn", "goose", "", "corn"];
-        } else if ((corn==2) && (geese==1)) {
-            return ["goose", "", "corn", "goose", "corn", "", "goose"];
-        } else {
-          return "ERROR";
-        }
+    if ((corn==1) && (geese==1) && (foxes == 0)) {
+        return ["corn", "", "goose"];
+    } else if ((corn==1) && (geese==2) && (foxes == 0)) {
+        return ["corn", "", "goose", "corn", "goose", "", "corn"];
+    } else if ((corn==2) && (geese==1) && (foxes == 0)) {
+        return ["goose", "", "corn", "goose", "corn", "", "goose"];
+    } else if ((corn == 1) && (geese == 1) && (foxes == 1)) {
+      return ["goose", "", "corn", "", "fox"];
+    } else if ((corn == 0) && (geese == 2) && (foxes == 1)) {
+      return ["fox", "", "goose", "fox", "goose", "", "fox"];
+    } else if ((corn == 0) && (geese == 1) && (foxes == 2)) {
+      return ["goose", "", "fox", "goose", "fox", "", "goose"];
+    } else if (((corn == 2) && (geese == 2)) || ((geese == 2) && (foxes == 2))) {
+      return "ERROR";
     } else {
         while (corn--) {
             worker.push("corn");
-            if (corn) {
+            if ((corn-0) + (geese-0) + (foxes-0)) {
                 worker.push("");
             }
         }
 
         while (geese--) {
             worker.push("goose");
-            if (geese) {
+            if ((corn-0) + (geese-0) + (foxes-0)) {
                 worker.push("");
             }
         }
         
         while (foxes--) {
             worker.push("fox");
-            if (foxes) {
+            if ((corn-0) + (geese-0) + (foxes-0)) {
                 worker.push("");
             }
         }

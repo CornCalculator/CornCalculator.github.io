@@ -1,4 +1,4 @@
-var calculate = function(corn, geese) {
+var calculate = function(corn, geese, foxes) {
     let worker = [];
 
     if((corn != 0) && (geese != 0)) {
@@ -26,6 +26,13 @@ var calculate = function(corn, geese) {
         while (geese--) {
             worker.push("goose");
             if (geese) {
+                worker.push("");
+            }
+        }
+        
+        while (foxes--) {
+            worker.push("fox");
+            if (foxes) {
                 worker.push("");
             }
         }

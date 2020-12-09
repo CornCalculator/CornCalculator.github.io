@@ -2,6 +2,7 @@ transport_cost = function() {
     let cost_of_transport = document.getElementsByName("cost_of_transport")[0].value;
     let bags_of_corn = document.getElementsByName("bags_of_corn")[0].value;
     let geese = document.getElementsByName("geese")[0].value;
+    let foxes = document.getElementsByName("foxes")[0].value;
 
     let result_holder = document.getElementsByClassName("result")[0];
 
@@ -20,7 +21,7 @@ transport_cost = function() {
         throw_error(document.getElementsByName("cost_of_transport")[0]);
     }
     else {
-        let journey = calculate(bags_of_corn, geese);
+        let journey = calculate(bags_of_corn, geese, foxes);
 
         result_holder.style.display = "block";
 

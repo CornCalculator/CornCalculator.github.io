@@ -18,7 +18,9 @@ const make_safe = (bin, max_removal = 1) => {
   if (occurrences(bin, "corn") > 0 && occurrences(bin, "geese") > 0) {
     if (Math.min(occurrences(bin, "corn"), occurrences(bin, "geese")) > max_removal) {
       return null;
-    } else if (occurrences(bin, "corn") < occurrences(bin, "geese")) {
+    }
+    //we have to try either order and see which one gets us a result sooner
+    else if ((occurrences(bin, "corn") < occurrences(bin, "geese"))) {
       return clone("corn", occurrences(bin, "corn"));
     } else {
       return clone("geese", occurrences(bin, "geese"));
@@ -26,7 +28,9 @@ const make_safe = (bin, max_removal = 1) => {
   } else if (occurrences(bin, "geese") > 0 && occurrences(bin, "foxes") > 0) {
     if (Math.min(occurrences(bin, "geese"), occurrences(bin, "foxes")) > max_removal) {
       return null;
-    } else if (occurrences(bin, "geese") < occurrences(bin, "foxes")) {
+    }
+    //we have to try either order and see which one gets us a result sooner
+    else if (occurrences(bin, "geese") < occurrences(bin, "foxes")) {
       return clone("geese", occurrences(bin, "geese"));
     } else {
       return clone("foxes", occurrences(bin, "foxes"));
@@ -40,7 +44,7 @@ const make_safe = (bin, max_removal = 1) => {
 //this avoids complicating calculations
 //keeping this deterministic makes debugging easier
 const any_single_class = (bin, max_removal) => {
-  //shouldn't be taking more than max_removal
+  //we have to try all possible orders to see which gets a result soonest
   if (occurrences(bin, "corn") > 0) {
     return clone("corn", Math.min(occurrences(bin, "corn"), max_removal));
   } else if (occurrences(bin, "geese") > 0) {
@@ -75,6 +79,9 @@ const calculate = (corn, geese, foxes) => {
   let destination = MARKET_BIN;
   
   while (true) {
+    //we need a way to keep track of the history of all our bins and then walk
+    //back and try a different route if it tries to visit a permutation we've
+    //already tried
     let changes = apply(make_safe(bins[FARM_BIN], FERRY_SIZE), (changes) => {
       if (changes === null) {
         return null;
@@ -87,12 +94,11 @@ const calculate = (corn, geese, foxes) => {
     if (changes === null) {
       return "ERROR";
     }
-    console.log(changes);
+    
     take_all(bins[FARM_BIN], changes);
     bins[MARKET_BIN] = extend(bins[MARKET_BIN],changes);
     if (bins[MARKET_BIN].length != corn+geese+foxes) {
       changes = make_safe(bins[MARKET_BIN], FERRY_SIZE);
-      console.log(changes);
       take_all(bins[MARKET_BIN], changes);
       bins[FARM_BIN] = extend(bins[FARM_BIN], changes);
     } else {

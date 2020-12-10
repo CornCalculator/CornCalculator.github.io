@@ -26,7 +26,7 @@ transport_cost = function() {
         result_holder.style.display = "block";
 
         if(journey=="ERROR") {
-            result_holder.innerHTML = "Ahhhhh, your corn's getting munched!";
+            result_holder.innerHTML = "Ahhhhh, your stock is getting munched!";
             
             return;
         }

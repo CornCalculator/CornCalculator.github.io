@@ -13,6 +13,7 @@ const take = (array, item) =>
 const take_all = (array, items) => items.map((item) => using(item, () => take(array, item)));
 
 //finds a way to make the state safe by removing max_removal items
+//we probably need the reverse of this for making the market bin safe
 const make_safe = (bin, max_removal = 1) => {
   if (occurrences(bin, "corn") > 0 && occurrences(bin, "geese") > 0) {
     if (Math.min(occurrences(bin, "corn"), occurrences(bin, "geese")) > max_removal) {

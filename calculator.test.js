@@ -29,6 +29,21 @@ var tests = {
     "2 foxes and 2 geese to transport is not possible": function() {
         return expect(calculate(0, 2, 2), "to eq", "ERROR")
     },
+    "1 foxes, 2 corn and 2 geese to transport is not possible": function() {
+        return expect(calculate(2, 2, 1), "to eq", "ERROR")
+    },
+    "1 foxes, 1 corn and 2 geese to transport is not possible": function() {
+        return expect(calculate(1, 2, 1), "to eq", "ERROR")
+    },
+    "2 foxes, 1 corn and 2 geese to transport is not possible": function() {
+        return expect(calculate(1, 2, 2), "to eq", "ERROR")
+    },
+    "1 corn and 3 geese to transport is not possible": function() {
+        return expect(calculate(1, 3, 0), "to eq", "ERROR")
+    },
+    "1 geese and 3 foxes to transport is not possible": function() {
+        return expect(calculate(0, 1, 3), "to eq", "ERROR")
+    },
     "1 geese and 1 corn to transport is possible": function() {
         return expect(calculate(1, 1, 0), "to eq", ["corn", "", "goose"])
     },

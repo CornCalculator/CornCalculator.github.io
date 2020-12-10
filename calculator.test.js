@@ -39,7 +39,7 @@ var tests = {
         return expect(calculate(2, 1, 0), "to eq", ["goose", "", "corn", "goose", "corn", "", "goose"])
     },
     "1 corn, 1 goose, 1 fox can be transported": function() {
-      return expect(calculate(1, 1, 1), "to eq", ["goose", "", "corn", "", "fox"])
+      return expect(calculate(1, 1, 1), "to eq", ["goose", "", "corn", "goose", "fox", "", "goose"])
     },
     "0 corn, 2 geese, 1 fox can be transported": function() {
       return expect(calculate(0, 2, 1), "to eq", ["fox", "", "goose", "fox", "goose", "", "fox"])

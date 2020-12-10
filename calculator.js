@@ -1,25 +1,53 @@
 const always = (anything) => true;
-const using = (value, func) => always(func()) && value;
+const apply = (value, func) => func(value);
+const using = (value, func) => always(func(value)) && value;
 const has = (array, item) => (array.indexOf(item) != -1);
 const occurrences = (array, val) => array.reduce((a, v) => (v === val ? a + 1 : a), 0);
+const clone = (item, times) => (new Array(times)).fill(item)
+const extend = (a, b) => [...a,...b]
 
+//mutates
 const take = (array, item) =>
-  using(array, () => has(array, item) &&
-    array.splice(array.indexOf(item), 1));
+  has(array, item) && array.splice(array.indexOf(item), 1);
+
+const take_all = (array, items) => items.map((item) => using(item, () => take(array, item)));
 
 //finds a way to make the state safe by removing max_removal items
-const make_safe = (bin, max_removal) => {
+const make_safe = (bin, max_removal = 1) => {
   if (occurrences(bin, "corn") > 0 && occurrences(bin, "geese") > 0) {
-    if (Math.min(occurrences(bin, "corn"),occurrences(bin, "geese")))
-    //we have to be able to load all of either
-    //we should start with the ones which there are fewer of
+    if (Math.min(occurrences(bin, "corn"), occurrences(bin, "geese")) > max_removal) {
+      return null;
+    } else if (occurrences(bin, "corn") < occurrences(bin, "geese")) {
+      return clone("corn", occurrences(bin, "corn"));
+    } else {
+      return clone("geese", occurrences(bin, "geese"));
+    }
   } else if (occurrences(bin, "geese") > 0 && occurrences(bin, "foxes") > 0) {
-    //we have to be able to load all of either
-    //we should start with the ones which there are fewer of
+    if (Math.min(occurrences(bin, "geese"), occurrences(bin, "foxes")) > max_removal) {
+      return null;
+    } else if (occurrences(bin, "geese") < occurrences(bin, "foxes")) {
+      return clone("geese", occurrences(bin, "geese"));
+    } else {
+      return clone("foxes", occurrences(bin, "foxes"));
+    }
   } else {
-    return "safe";
+    return [];
   }
-}
+};
+
+//we never take more than one class at a time
+//this avoids complicating calculations
+//keeping this deterministic makes debugging easier
+const any_single_class = (bin, max_removal) => {
+  //shouldn't be taking more than max_removal
+  if (occurrences(bin, "corn") > 0) {
+    return clone("corn", Math.min(occurrences(bin, "corn"), max_removal));
+  } else if (occurrences(bin, "geese") > 0) {
+    return clone("geese", Math.min(occurrences(bin, "geese"), max_removal));
+  } if (occurrences(bin, "foxes") > 0) {
+    return clone("foxes", Math.min(occurrences(bin, "foxes"), max_removal));
+  } 
+};
 
 const calculate = (corn, geese, foxes) => {
   //Coerce into integers
@@ -40,34 +68,38 @@ const calculate = (corn, geese, foxes) => {
   
   bins[FARM_BIN].fill("corn", 0, corn);
   bins[FARM_BIN].fill("geese", corn, corn+geese);
-  bins[FARM_BIN].fill("foxes", foxes, corn+geese+foxes);
+  bins[FARM_BIN].fill("foxes", corn+geese, corn+geese+foxes);
   
   let farmer_bin_pointer = FARM_BIN;
   let destination = MARKET_BIN;
   
-  while (bins[MARKET_BIN].length != corn+geese+foxes) {
-    if (farmer_bin_pointer == FARM_BIN) {
-      if (destination == MARKET_BIN) {
-        while (bins[FERRY_BIN] < FERRY_SIZE) {
-          
-        }
-        farmer_bin_pointer = MARKET_BIN;
-        destination = MARKET_BIN;
-      } else if (destination == FARM_BIN) {
-        //unload ferry 
-        while (bins[FERRY_BIN] > 0) {
-          
-        }
-        destination = MARKET_BIN;
+  while (true) {
+    let changes = apply(make_safe(bins[FARM_BIN], FERRY_SIZE), (changes) => {
+      if (changes === null) {
+        return null;
       }
-    } else if (farmer_bin_pointer = MARKET_BIN) {
-      console.log("MARKET BIN")
-      console.log(bins)
+      if (changes.length == 0) {
+        return any_single_class(bins[FARM_BIN], FERRY_SIZE);
+      }
+      return changes;
+    });
+    if (changes === null) {
+      return "ERROR";
+    }
+    console.log(changes);
+    take_all(bins[FARM_BIN], changes);
+    bins[MARKET_BIN] = extend(bins[MARKET_BIN],changes);
+    if (bins[MARKET_BIN].length != corn+geese+foxes) {
+      changes = make_safe(bins[MARKET_BIN], FERRY_SIZE);
+      console.log(changes);
+      take_all(bins[MARKET_BIN], changes);
+      bins[FARM_BIN] = extend(bins[FARM_BIN], changes);
+    } else {
       break;
     }
-    
+    console.log(bins);
+    alert("wait");
   }
-
 }
   
 /*var calculate = function(corn, geese, foxes) {

@@ -1,6 +1,7 @@
 var calculate = function(corn, geese, foxes) {
     let worker = [];
 
+    // I'm well aware that this looks like a CS grad meme
     if ((corn==1) && (geese==1) && (foxes == 0)) {
         return ["corn", "", "goose"];
     } else if ((corn==1) && (geese==1) && (foxes == 1)) {
